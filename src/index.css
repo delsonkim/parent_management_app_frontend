@@ -1,0 +1,72 @@
+@import "tailwindcss";
+@import "@fontsource-variable/inter";
+
+@theme {
+  --font-sans: "Inter Variable", ui-sans-serif, system-ui, sans-serif;
+
+  --color-background: #f6f2e6;
+  --color-surface: #ffffff;
+  --color-surface-dim: #f5f3ed;
+
+  --color-primary-50: #e7f6e7;
+  --color-primary-100: #d0eed0;
+  --color-primary-200: #b2e3b2;
+  --color-primary-300: #83d183;
+  --color-primary-400: #56c056;
+  --color-primary-500: #3ea73e;
+  --color-primary-600: #328632;
+  --color-primary-700: #256525;
+  --color-primary-800: #1d4f1d;
+  --color-primary-900: #153815;
+  --color-primary-950: #0f290f;
+
+  --color-success-text: #328632;
+  --color-success-bg: #e7f6e7;
+  --color-success-border: #b2e3b2;
+
+  --color-error-text: #dc2626;
+  --color-error-bg: #fef2f2;
+  --color-error-border: #fecaca;
+
+  --color-warning-text: #d97706;
+  --color-warning-bg: #fffbeb;
+  --color-warning-border: #fde68a;
+
+  --color-info-text: #2563eb;
+  --color-info-bg: #eff6ff;
+  --color-info-border: #bfdbfe;
+
+  --color-subject-math-text: #1d4ed8;
+  --color-subject-math-bg: #eff6ff;
+  --color-subject-chinese-text: #b91c1c;
+  --color-subject-chinese-bg: #fef2f2;
+  --color-subject-english-text: #b45309;
+  --color-subject-english-bg: #fffbeb;
+  --color-subject-science-text: #047857;
+  --color-subject-science-bg: #ecfdf5;
+  --color-subject-social-text: #6d28d9;
+  --color-subject-social-bg: #f5f3ff;
+  --color-subject-art-text: #be123c;
+  --color-subject-art-bg: #fff1f2;
+  --color-subject-computing-text: #0e7490;
+  --color-subject-computing-bg: #ecfeff;
+  --color-subject-business-text: #c2410c;
+  --color-subject-business-bg: #fff7ed;
+  --color-subject-default-text: #256525;
+  --color-subject-default-bg: #e7f6e7;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: #eeeae0;
+  color: #4b5563;
+}
