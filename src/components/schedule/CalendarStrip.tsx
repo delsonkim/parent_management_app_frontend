@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from "react"
-import { CalendarDays, ChevronLeft, ChevronRight, Rows3 } from "lucide-react"
+import { ChevronLeft, ChevronRight, Rows3 } from "lucide-react"
 import type { Subject } from "@/data/types"
 import { classes } from "@/data/classes"
 
@@ -79,7 +79,7 @@ export default function CalendarStrip({
     return d
   }, [])
 
-  const [expanded, setExpanded] = useState(false)
+  const [expanded, setExpanded] = useState(true)
   const [displayedMonth, setDisplayedMonth] = useState<Date>(() =>
     firstOfMonth(selectedDate),
   )
@@ -205,7 +205,18 @@ export default function CalendarStrip({
   return (
     <header className="bg-surface px-5 pt-5 pb-3 shadow-sm">
       <div className="flex items-center justify-between">
-        <h1 className="text-xl font-semibold text-gray-900">{monthLabel}</h1>
+        {expanded ? (
+          <h1 className="text-xl font-semibold text-gray-900">{monthLabel}</h1>
+        ) : (
+          <button
+            onClick={() => setExpanded(true)}
+            className="-ml-1 flex items-center gap-1 rounded-md px-1 py-0.5 text-xl font-semibold text-primary-700 active:bg-surface-dim"
+            aria-label="Back to month view"
+          >
+            <ChevronLeft className="h-5 w-5" />
+            {monthLabel}
+          </button>
+        )}
         <div className="flex items-center gap-1">
           {expanded && (
             <>
@@ -223,24 +234,16 @@ export default function CalendarStrip({
               >
                 <ChevronRight className="h-4 w-4" />
               </button>
+              <button
+                onClick={() => setExpanded(false)}
+                className="flex h-8 w-8 items-center justify-center rounded-full bg-primary-50 text-primary-700 active:bg-surface-dim"
+                aria-label="Switch to week view"
+                aria-pressed
+              >
+                <Rows3 className="h-4 w-4" />
+              </button>
             </>
           )}
-          <button
-            onClick={() => setExpanded((e) => !e)}
-            className={`flex h-8 w-8 items-center justify-center rounded-full active:bg-surface-dim ${
-              expanded
-                ? "bg-primary-50 text-primary-700"
-                : "text-gray-600"
-            }`}
-            aria-label={expanded ? "Switch to week view" : "Switch to month view"}
-            aria-pressed={expanded}
-          >
-            {expanded ? (
-              <Rows3 className="h-4 w-4" />
-            ) : (
-              <CalendarDays className="h-4 w-4" />
-            )}
-          </button>
         </div>
       </div>
 

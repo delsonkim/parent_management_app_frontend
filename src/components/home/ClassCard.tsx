@@ -18,6 +18,12 @@ const subjectLabel: Record<Subject, string> = {
   science: "Science",
 }
 
+const centrePill: Record<string, string> = {
+  ctr_mvp: "bg-info-text text-white",
+  ctr_bm: "bg-warning-text text-white",
+  ctr_lh: "bg-subject-social-text text-white",
+}
+
 function splitTime(iso: string): { primary: string; meridiem: string } {
   const parts = new Date(iso)
     .toLocaleTimeString("en-SG", {
@@ -68,10 +74,14 @@ export default function ClassCard({ cls }: Props) {
       </div>
       <div className="w-px shrink-0 self-stretch bg-gray-100" />
       <div className="min-w-0 flex-1 px-4 py-3">
-        <p className="truncate text-sm font-semibold text-gray-900">
-          {centre?.name ?? "Unknown centre"}
-        </p>
-        <p className="mt-1 flex items-center gap-1.5 text-sm text-gray-600">
+        <span
+          className={`inline-flex max-w-full items-center rounded-full px-2 py-0.5 text-[11px] font-semibold ${
+            centrePill[cls.centreId] ?? "bg-gray-100 text-gray-700"
+          }`}
+        >
+          <span className="truncate">{centre?.name ?? "Unknown centre"}</span>
+        </span>
+        <p className="mt-1.5 flex items-center gap-1.5 text-sm font-semibold text-gray-900">
           <BookOpen className="h-3.5 w-3.5 shrink-0 text-gray-400" />
           <span className="truncate">{subjectLabel[cls.subject]}</span>
         </p>
