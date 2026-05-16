@@ -18,7 +18,7 @@ export default function App() {
   return (
     <div className="flex min-h-[100dvh] justify-center">
       <div className="flex h-[100dvh] w-full max-w-[430px] flex-col bg-background shadow-sm">
-        <main className="flex-1 overflow-y-auto">
+        <main className="flex-1 overflow-y-auto overscroll-contain [-webkit-overflow-scrolling:touch]">
           <Routes>
             <Route path="/" element={<HomePage />} />
             <Route path="/schedule" element={<SchedulePage />} />
