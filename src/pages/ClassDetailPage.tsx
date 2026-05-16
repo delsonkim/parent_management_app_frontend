@@ -1,8 +1,9 @@
+import { useState } from "react"
 import { Link, useNavigate, useParams } from "react-router-dom"
 import {
   ChevronLeft,
+  ChevronRight,
   Clock,
-  RefreshCw,
   User,
 } from "lucide-react"
 import type { Class, Subject } from "@/data/types"
@@ -115,6 +116,9 @@ export default function ClassDetailPage() {
   const past = pastLessonsForClass(centreId, classCode, child.id)
   const stats = attendanceStats(past)
   const ratePct = Math.round(stats.rate * 100)
+  const [showAllPast, setShowAllPast] = useState(false)
+  const RECENT_LIMIT = 4
+  const visiblePast = showAllPast ? past : past.slice(0, RECENT_LIMIT)
 
   return (
     <div className="flex h-full flex-col pb-6">
@@ -156,14 +160,15 @@ export default function ClassDetailPage() {
         ) : (
           <div className="mt-3 flex flex-col gap-2">
             {upcoming.map((lesson) => (
-              <div
+              <Link
                 key={lesson.id}
-                className="flex overflow-hidden rounded-xl bg-surface shadow-sm"
+                to={`/schedule/lesson/${lesson.id}`}
+                className="flex overflow-hidden rounded-xl bg-surface shadow-sm transition-colors active:bg-surface-dim"
               >
                 <div
                   className={`w-1.5 shrink-0 ${subjectAccent[lesson.subject]}`}
                 />
-                <div className="flex min-w-0 flex-1 items-center justify-between gap-3 px-4 py-3">
+                <div className="flex min-w-0 flex-1 items-center gap-3 px-4 py-3">
                   <div className="min-w-0 flex-1">
                     <p className="truncate text-sm font-semibold text-gray-900">
                       {formatDateLine(lesson.startsAt)}
@@ -173,15 +178,9 @@ export default function ClassDetailPage() {
                       {formatTimeRange(lesson.startsAt, lesson.endsAt)}
                     </p>
                   </div>
-                  <button
-                    type="button"
-                    className="inline-flex shrink-0 items-center gap-1 rounded-full border border-gray-200 px-3 py-1 text-xs font-medium text-gray-600 active:bg-surface-dim"
-                  >
-                    <RefreshCw className="h-3 w-3" />
-                    Reschedule
-                  </button>
+                  <ChevronRight className="h-4 w-4 shrink-0 text-gray-300" />
                 </div>
-              </div>
+              </Link>
             ))}
           </div>
         )}
@@ -205,7 +204,7 @@ export default function ClassDetailPage() {
           </div>
         ) : (
           <div className="mt-3 overflow-hidden rounded-xl bg-surface shadow-sm">
-            {past.map((lesson, idx) => {
+            {visiblePast.map((lesson, idx) => {
               const pill = attendanceStatusPill[lesson.status]
               return (
                 <div
@@ -233,6 +232,18 @@ export default function ClassDetailPage() {
               )
             })}
           </div>
+        )}
+
+        {past.length > RECENT_LIMIT && (
+          <button
+            type="button"
+            onClick={() => setShowAllPast((v) => !v)}
+            className="mt-3 w-full rounded-xl bg-surface px-4 py-2.5 text-sm font-medium text-primary-700 shadow-sm active:bg-surface-dim"
+          >
+            {showAllPast
+              ? "Show recent only"
+              : `Show all ${past.length} lessons`}
+          </button>
         )}
       </section>
     </div>

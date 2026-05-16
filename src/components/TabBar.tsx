@@ -18,7 +18,10 @@ const tabs: Tab[] = [
 
 export default function TabBar() {
   return (
-    <nav className="border-t border-gray-200 bg-surface">
+    <nav
+      className="sticky bottom-0 z-40 shrink-0 border-t border-gray-200 bg-surface"
+      style={{ paddingBottom: "max(env(safe-area-inset-bottom), 0.5rem)" }}
+    >
       <ul className="grid grid-cols-5">
         {tabs.map(({ to, label, Icon }) => (
           <li key={to}>

@@ -328,6 +328,25 @@ export function invoiceById(id: string): Invoice | undefined {
   return invoices.find((i) => i.id === id)
 }
 
+// Inverse of lessonsForInvoice — given a Class, find the invoice whose
+// billing period covers it (matched by childId + centreId + classCode).
+export function invoiceForLesson(lesson: Class): Invoice | undefined {
+  const t = new Date(lesson.startsAt).getTime()
+  return invoices.find((inv) => {
+    if (
+      inv.childId !== lesson.childId ||
+      inv.centreId !== lesson.centreId ||
+      inv.classCode !== lesson.classCode
+    ) {
+      return false
+    }
+    const start = new Date(inv.billingPeriodStart).getTime()
+    const end =
+      new Date(inv.billingPeriodEnd).getTime() + 24 * 60 * 60 * 1000 - 1
+    return t >= start && t <= end
+  })
+}
+
 // Past lessons that fall within the invoice's billing period for the same
 // class + centre + child. End boundary is inclusive of the final day.
 export function lessonsForInvoice(invoice: Invoice): Class[] {

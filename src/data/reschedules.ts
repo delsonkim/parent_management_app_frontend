@@ -44,6 +44,20 @@ export function rescheduleById(id: string): RescheduleRequest | undefined {
   return reschedules.find((r) => r.id === id)
 }
 
+export function pendingRescheduleForClass(
+  classId: string,
+): RescheduleRequest | undefined {
+  return reschedules.find(
+    (r) => r.originalClassId === classId && r.status === "pending",
+  )
+}
+
+export function rescheduleForClass(
+  classId: string,
+): RescheduleRequest | undefined {
+  return reschedules.find((r) => r.originalClassId === classId)
+}
+
 export function cancelReschedule(id: string): boolean {
   const idx = reschedules.findIndex((r) => r.id === id)
   if (idx === -1) return false

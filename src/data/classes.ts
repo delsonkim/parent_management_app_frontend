@@ -29,6 +29,8 @@ const seedClasses: Class[] = [
     startsAt: daysFromNow(-5, 16),
     endsAt: plusHours(daysFromNow(-5, 16), 1.5),
     status: "present",
+    attendanceNote:
+      "Strong work on long division today. Could push harder on word problems next week.",
   },
   {
     id: "cls_002",
@@ -41,6 +43,8 @@ const seedClasses: Class[] = [
     startsAt: daysFromNow(-2, 17, 30),
     endsAt: plusHours(daysFromNow(-2, 17, 30), 1.5),
     status: "present",
+    attendanceNote:
+      "Comprehension is improving — Aiden is reading more confidently aloud.",
   },
   {
     id: "cls_003",
@@ -232,6 +236,14 @@ const statusPattern: ClassStatus[] = [
   "present",
 ]
 
+// Notes that occasionally appear on past attended lessons (keyed by classCode
+// + week-index pairs).
+const noteByKey: Record<string, string> = {
+  "P5-MATH-A:2": "Solid practice on fractions today — accuracy up from last week.",
+  "P5-CHI-B:1": "Brought back the missing 听写 sheet. Tones are improving.",
+  "P5-SCI-1:3": "Engaged well in the experiments segment; great curiosity.",
+}
+
 const pastLessons: Class[] = []
 for (const spec of pastSeries) {
   for (let w = 1; w <= 8; w++) {
@@ -244,6 +256,8 @@ for (const spec of pastSeries) {
         : 6 // pull forward by one week so chinese/science get -6,-13,...
     const offset = -(baseWeekOffset + (w - 1) * 7)
     const startsAt = daysFromNow(offset, spec.hour, spec.minute)
+    const status = statusPattern[(w - 1) % statusPattern.length]
+    const note = noteByKey[`${spec.classCode}:${w}`]
     pastLessons.push({
       id: `cls_past_${spec.classCode}_w${w}`,
       childId: child.id,
@@ -254,7 +268,8 @@ for (const spec of pastSeries) {
       level: spec.level,
       startsAt,
       endsAt: plusHours(startsAt, spec.durationHours),
-      status: statusPattern[(w - 1) % statusPattern.length],
+      status,
+      ...(note && status === "present" ? { attendanceNote: note } : {}),
     })
   }
 }
